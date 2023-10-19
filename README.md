@@ -1,3 +1,0 @@
-# smartCity-Spring
-# SmartCity
-# SmartCity

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header">Liste Types</div>
+      <div class="card-body">
+        <form method="get" th:action="@{/user/indexType}" >
+          <label>Key Word</label>
+          <input type="text" name="keyword" th:value="${keyword}">
+          <button type="submit" class="btn btn-primary">Chercher</button>
+        </form>
+        <br>
+        <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+          <a class="btn btn-success" th:href="@{/admin/formType}">nouveau type Etablissement</a>
+        </td>
+        <br>
+        <table class="table">
+          <thread>
+            <tr>
+              <th>ID</th><th>Libelle </th>
+            </tr>
+          </thread>
+          <tbody>
+          <tr th:each="list:${listType}">
+            <td th:text="${list.id}"></td>
+            <td th:text="${list.nom}"></td>
+            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+              <a onclick="return confirm('Etes vous Sure?')" class="btn btn-danger"
+                 th:href="@{/admin/deleteType(id=${list.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
+            </td>
+            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+              <a class="btn btn-info" th:href="@{/admin/formEtablissements(id=${list.id})}">Editer un Etablissement</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li th:each="page,status:${pages}">
+            <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
+               th:text="${status.index}"
+               th:href="@{/user/indexType(page=${status.index},keyword=${keyword})}"
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

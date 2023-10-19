@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Form Patients</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-3 offset-3">
+        <form method="post" th:action="@{saveEtablissement}">
+            <div>
+                <label for="nom">Nom </label>
+                <input id="nom" class="form-control" type="text" name="nom" th:value="${etablissement.nom}">
+                <span th:errors="${etablissement.nom}"></span>
+            </div>
+            <div>
+                <label for="adresse">Adresse  </label>
+                <input id="adresse" class="form-control" type="text" name="adresse" th:value="${etablissement.adresse}">
+                <span th:errors="${etablissement.adresse}"></span>
+            </div>
+            <div>
+                <label for="number">Numero de telephone </label>
+                <input id="number" class="form-control" type="text" name="numTel" th:value="${etablissement.numTel}">
+                <span th:errors="${etablissement.numTel}"></span>
+            </div>
+            <div>
+                <label for="type">Type d'Etablissement : </label>
+                <label th:text="${etablissement.typeEtablissement.nom}"></label>
+                <input id="type" class="form-control" type="hidden" name="typeEtablissement.id" th:value="${etablissement.typeEtablissement.id}">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

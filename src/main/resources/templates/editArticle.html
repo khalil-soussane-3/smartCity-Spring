@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Article</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-3 offset-3">
+        <form method="post" th:action="@{saveArticle(page=${page},keyword=${keyword})}">
+            <div>
+                <label for="id">ID : </label>
+                <label th:text="${article.id}"></label>
+                <input id="id" class="form-control" type="hidden" name="id" th:value="${article.id}">
+            </div>
+            <div>
+                <label for="nom">Nom  </label>
+                <input id="nom" class="form-control" type="text" name="nom" th:value="${article.nom}">
+                <span th:errors="${article.nom}"></span>
+            </div>
+            <div>
+                <label for="desc">Description </label>
+                <input id="desc" class="form-control" type="text" name="description" th:value="${article.description}">
+                <span th:errors="${article.description}"></span>
+            </div>
+            <div>
+                <label for="datec">Date de Creation </label>
+                <input id="datec" class="form-control" type="date" name="dateArticle" th:value="${article.dateArticle}">
+                <span th:errors="${article.dateArticle}"></span>
+            </div>
+            <div>
+                <label for="etab">Nom Etablissement  : </label>
+                <label th:text="${article.etablissement.nom}"></label>
+                <input id="etab" class="form-control" type="hidden" name="etablissement.id" th:value="${article.etablissement.id}">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

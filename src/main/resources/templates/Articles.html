@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header">Liste des Articles</div>
+      <div class="card-body">
+        <form method="get" th:action="@{/user/indexArticle}" >
+          <label>Key Word</label>
+          <input type="text" name="keyword" th:value="${keyword}">
+          <button type="submit" class="btn btn-primary">Chercher</button>
+        </form>
+        <table class="table">
+          <thread>
+            <tr>
+              <th>ID</th><th>Nom </th><th>Description</th><th>Date</th><th>Etablissement</th>
+            </tr>
+          </thread>
+          <tbody>
+          <tr th:each="a:${listArticles}">
+            <td th:text="${a.id}"></td>
+            <td th:text="${a.nom}"></td>
+            <td th:text="${a.description}"></td>
+            <td th:text="${a.dateArticle}"></td>
+            <td th:text="${a.etablissement.nom}"></td>
+            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+              <a onclick="return confirm('Etes vous Sure?')" class="btn btn-danger"
+                 th:href="@{/admin/deleteArticles(id=${a.id},keyword=${keyword},page=${currentPage})}">Supprimer</a>
+            </td>
+            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+              <a class="btn btn-success" th:href="@{/admin/editArticle(id=${a.id},keyword=${keyword},page=${currentPage})}">
+                Modifier</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li th:each="page,status:${pages}">
+            <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
+               th:text="${status.index}"
+               th:href="@{/user/indexArticle(page=${status.index},keyword=${keyword})}"
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
